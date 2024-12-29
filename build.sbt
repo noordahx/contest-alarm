@@ -9,8 +9,10 @@ libraryDependencies ++= Seq(
 	"com.softwaremill.sttp.client3" %% "circe"				% "3.8.6",
 	"io.circe"											%% "circe-core"		% "0.14.6",
 	"io.circe"											%% "circe-generic"% "0.14.6",
-	"io.circe"											%% "circe-parse"	% "0.14.6",
-	"org.scalatest"									%% "scalatest"		% "3.2.16"  % Test
+	"io.circe"											%% "circe-parser"	% "0.14.6",
+	"org.scalatest"									%% "scalatest"		% "3.2.16"  % Test,
+	"com.github.cdimascio"					%% "dotenv-scala" % "2.2.0",
+	"javax.mail"										%% "mail"					% "1.4.7"
 )
 
 scalacOptions ++= Seq(

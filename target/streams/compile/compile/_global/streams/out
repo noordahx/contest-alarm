@@ -1,4 +1,0 @@
-[0m[[0m[33mwarn[0m] [0m[0m/home/acer/contest-alarm/src/main/scala/apis/CodeforcesApi.scala:16:76: Block result was adapted via implicit conversion (method apply) taking a by-name parameter[0m
-[0m[[0m[33mwarn[0m] [0m[0m  implicit val cfContestDecoder: Decoder[CodeforcesContest] = deriveDecoder[CodeforcesContest][0m
-[0m[[0m[33mwarn[0m] [0m[0m                                                                           ^[0m
-[0m[[0m[33mwarn[0m] [0m[0mone warning found[0m

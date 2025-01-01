@@ -11,7 +11,7 @@ libraryDependencies ++= Seq(
 	"io.circe" %% "circe-generic" % "0.14.6",
 	"io.circe" %% "circe-parser" % "0.14.6",
 	"org.scalatest" %% "scalatest" % "3.2.16" % Test,
-	"javax.mail" % "mail" % "1.4.5",
+	"com.github.daddykotex" %% "courier" % "3.2.0"
 )
 
 scalacOptions ++= Seq(

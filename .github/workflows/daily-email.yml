@@ -2,7 +2,7 @@ name: "Daily Contest Email"
 
 on:
   schedule:
-    - cron: "0 18 30 * *"
+    - cron: "0 18 35 * *"
   workflow_dispatch:
 
 jobs:

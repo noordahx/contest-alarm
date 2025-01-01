@@ -12,7 +12,6 @@ libraryDependencies ++= Seq(
 	"io.circe"						%% "circe-parser"	% "0.14.6",
 	"org.scalatest"					%% "scalatest"		% "3.2.16"  % Test,
 	"javax.mail"					% "mail"			% "1.4.5",
-	// "au.com.onegeek"				% "sbt-dotenv" 		% "2.0.117",
 )
 
 scalacOptions ++= Seq(

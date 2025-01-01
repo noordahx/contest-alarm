@@ -1,6 +1,7 @@
+// Not used in the final project, but kept for reference
+
 package apis
 
-import app.AppMain.Contest
 import sttp.client3._
 import sttp.client3.circe._
 import io.circe._
@@ -14,6 +15,14 @@ object CodeforcesApi {
     name: String,
     startTimeSeconds: Long,
     durationSeconds: Long
+  )
+
+  case class Contest(
+    id: Option[Long],
+    name: String,
+    startDateTime: String,
+    duration: String,
+    link: Option[String]
   )
 
   implicit val cfContestDecoder: Decoder[CodeforcesContest] = deriveDecoder[CodeforcesContest]

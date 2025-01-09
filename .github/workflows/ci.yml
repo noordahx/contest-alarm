@@ -35,7 +35,7 @@ jobs:
         
         env:
           CLIST_USERNAME: ${{ secrets.CLIST_USERNAME }}
-          CLIST_PASSWORD: ${{ secrets.CLIST_PASSWORD }}
+          CLIST_API_KEY: ${{ secrets.CLIST_API_KEY }}
           TIMEZONE: ${{ secrets.TIMEZONE }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}

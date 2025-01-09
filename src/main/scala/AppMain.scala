@@ -8,6 +8,7 @@ import scala.concurrent.duration._
 
 object AppMain extends App {
   // dev .env
+  /*
   val envMap: Map[String, String] = DotEnvLoader.loadDotEnv(".env")
   val username: String = envMap.getOrElse("CLIST_USERNAME", "")
   val apiKey: String = envMap.getOrElse("CLIST_API_KEY", "")
@@ -15,17 +16,15 @@ object AppMain extends App {
   val gmailUsername: String = envMap.getOrElse("GMAIL_USERNAME", "")
   val gmailPassword: String = envMap.getOrElse("GMAIL_PASSWORD", "")
   val destinationEmail: String = envMap.getOrElse("DESTINATION_EMAIL", "")
-  
+  */ 
 
   // sys env
-  /*
   val username: String = sys.env("CLIST_USERNAME")
   val apiKey: String = sys.env("CLIST_API_KEY")
   val timezone: String = sys.env.getOrElse("TIMEZONE", "Asia/Almaty")
   val gmailUsername: String = sys.env("GMAIL_USERNAME")
   val gmailPassword: String = sys.env("GMAIL_PASSWORD")
   val destinationEmail: String = sys.env("DESTINATION_EMAIL")
-  */
   
   val platforms: List[String] = List("codeforces.com", "leetcode.com")
 

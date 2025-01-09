@@ -8,7 +8,6 @@ import scala.concurrent.duration._
 
 object AppMain extends App {
   // dev .env
-  /*
   val envMap: Map[String, String] = DotEnvLoader.loadDotEnv(".env")
   val username: String = envMap.getOrElse("CLIST_USERNAME", "")
   val apiKey: String = envMap.getOrElse("CLIST_API_KEY", "")
@@ -16,16 +15,17 @@ object AppMain extends App {
   val gmailUsername: String = envMap.getOrElse("GMAIL_USERNAME", "")
   val gmailPassword: String = envMap.getOrElse("GMAIL_PASSWORD", "")
   val destinationEmail: String = envMap.getOrElse("DESTINATION_EMAIL", "")
-  */
+  
 
   // sys env
+  /*
   val username: String = sys.env("CLIST_USERNAME")
   val apiKey: String = sys.env("CLIST_API_KEY")
   val timezone: String = sys.env.getOrElse("TIMEZONE", "Asia/Almaty")
   val gmailUsername: String = sys.env("GMAIL_USERNAME")
   val gmailPassword: String = sys.env("GMAIL_PASSWORD")
   val destinationEmail: String = sys.env("DESTINATION_EMAIL")
-  
+  */
   
   val platforms: List[String] = List("codeforces.com", "leetcode.com")
 
@@ -36,7 +36,9 @@ object AppMain extends App {
       apiKey,
       resource = platform
     )
-  }
+  }.filter { contest =>
+    contest.start.isDefined && contest.end.isDefined && contest.duration.isDefined
+  }.sortBy(_.start)
 
   println(prettyString(contests))
   sendEmail()
@@ -69,12 +71,11 @@ object AppMain extends App {
 
   def prettyString(contests: List[ClistContest]): String = {
     contests.map { contest =>
-      s"Platform: ${contest.resource}\n" +
-      s"Contest: ${contest.event.getOrElse("N/A")}\n" +
-      s"Start: ${formatDateTime(contest.start)}\n" +
-      s"End: ${formatDateTime(contest.end)}\n" +
-      s"Duration: ${formatDuration(contest.duration)}\n" +
-      s"Link: ${contest.href.getOrElse("N/A")}\n\n"
+      s"Platform:\t${contest.resource.getOrElse("N/A")}\n" +
+      s"Contest:\t${contest.event.getOrElse("N/A")}\n" +
+      s"Start:\t\t${formatDateTime(contest.start)}\n" +
+      s"Duration:\t${formatDuration(contest.duration)}\n" +
+      s"Link:\t${contest.href.getOrElse("N/A")}\n\n"
     }.mkString
   }
 
@@ -84,7 +85,7 @@ object AppMain extends App {
         val ajdustedDateTime = TimeZoneAdjuster.adjustTimeZone(dt, timezone)
         val date = ajdustedDateTime.split("T")(0)
         val time = ajdustedDateTime.split("T")(1).split(":").slice(0, 2).mkString(":")
-        s"$date $time $timezone"
+        s"$date $time ($timezone)"
       case None => "N/A"
     }
     

@@ -7,15 +7,17 @@ import scala.concurrent.Await
 import scala.concurrent.duration._
 
 object AppMain extends App {
-  // dev .env file
-  // val envMap: Map[String, String] = DotEnvLoader.loadDotEnv(".env")
-  // val username: String = envMap.getOrElse("CLIST_USERNAME", "")
-  // val apiKey: String = envMap.getOrElse("CLIST_API_KEY", "")
-  // val timezone: String = envMap.getOrElse("TIMEZONE", "Asia/Almaty")
-  // val gmailUsername: String = envMap.getOrElse("GMAIL_USERNAME", "")
-  // val gmailPassword: String = envMap.getOrElse("GMAIL_PASSWORD", "")
-  // val destinationEmail: String = envMap.getOrElse("DESTINATION_EMAIL", "")
-  
+  // dev .env
+  /*
+  val envMap: Map[String, String] = DotEnvLoader.loadDotEnv(".env")
+  val username: String = envMap.getOrElse("CLIST_USERNAME", "")
+  val apiKey: String = envMap.getOrElse("CLIST_API_KEY", "")
+  val timezone: String = envMap.getOrElse("TIMEZONE", "Asia/Almaty")
+  val gmailUsername: String = envMap.getOrElse("GMAIL_USERNAME", "")
+  val gmailPassword: String = envMap.getOrElse("GMAIL_PASSWORD", "")
+  val destinationEmail: String = envMap.getOrElse("DESTINATION_EMAIL", "")
+  */
+
   // sys env
   val username: String = sys.env("CLIST_USERNAME")
   val apiKey: String = sys.env("CLIST_API_KEY")
@@ -37,7 +39,7 @@ object AppMain extends App {
   }
 
   println(prettyString(contests))
-  // sendEmail()
+  sendEmail()
 
   def sendEmail(): Unit = {
     val emailContent = prettyString(contests)

@@ -1,8 +1,11 @@
 name: "Daily Contest Email"
 
 on:
+  push:
+    branches:
+      - main
   schedule:
-    - cron: "*/2 * * * *"
+    - cron: "*/5 * * * *"
   workflow_dispatch:
 
 jobs:
@@ -17,6 +20,12 @@ jobs:
         with:
           distribution: "temurin"
           java-version: "17"
+      
+      - name: Install sbt
+        run: |
+          curl -Ls https://git.io/sbt > ~/sbt
+          chmod +x ~/sbt
+          sudo mv ~/sbt /usr/local/bin/sbt
 
       - name: Build
         run: sbt compile

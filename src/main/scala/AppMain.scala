@@ -26,7 +26,10 @@ object AppMain extends App {
   val gmailPassword: String = sys.env("GMAIL_PASSWORD")
   val destinationEmail: String = sys.env("DESTINATION_EMAIL")
   
-  val platforms: List[String] = List("codeforces.com", "leetcode.com")
+  val platforms: List[String] = sys.env.getOrElse("PLATFORMS", "codefores.com,leetcode.com")
+    .split(",")
+    .map(_.trim)
+    .toList
 
 
   val contests = platforms.flatMap { platform =>

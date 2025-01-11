@@ -40,3 +40,4 @@ jobs:
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
           DESTINATION_EMAIL: ${{ secrets.DESTINATION_EMAIL }}
+          PLATFORMS: ${{ secrets.PLATFORMS }}

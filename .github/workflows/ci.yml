@@ -3,7 +3,7 @@ name: "Daily Contest Email"
 on:
   push:
     branches:
-      - '*'
+      - 'feature/subscriber_list'
   schedule:
     # every 2 mins for testing
     - cron: "*/2 * * * *"

@@ -5,9 +5,7 @@ on:
     branches:
       - 'feature/subscriber_list'
   schedule:
-    # every 2 mins for testing
-    - cron: "*/2 * * * *"
-    # - cron: "0 3,12 * * *"
+    - cron: "0 3,12 * * *"
   workflow_dispatch:
 
 jobs:
@@ -29,11 +27,8 @@ jobs:
           chmod +x ~/sbt
           sudo mv ~/sbt /usr/local/bin/sbt
 
-      # - name: Build
-      #   run: sbt compile
-
-      - name: Run Web Server
-        run: sbt "runMain web.WebServer" &
+      # - name: Run Web Server
+      #   run: sbt "runMain web.WebServer" &
 
       - name: Run Daily Email
         run: sbt "runMain app.AppMain"

@@ -3,9 +3,11 @@ name: "Daily Contest Email"
 on:
   push:
     branches:
-      - main
+      - '*'
   schedule:
-    - cron: "0 3,12 * * *"
+    # every 2 mins for testing
+    - cron: "*/2 * * * *"
+    # - cron: "0 3,12 * * *"
   workflow_dispatch:
 
 jobs:
@@ -27,8 +29,11 @@ jobs:
           chmod +x ~/sbt
           sudo mv ~/sbt /usr/local/bin/sbt
 
-      - name: Build
-        run: sbt compile
+      # - name: Build
+      #   run: sbt compile
+
+      - name: Run Web Server
+        run: sbt "runMain web.WebServer" &
 
       - name: Run Daily Email
         run: sbt "runMain app.AppMain"
@@ -39,5 +44,3 @@ jobs:
           TIMEZONE: ${{ secrets.TIMEZONE }}
           GMAIL_USERNAME: ${{ secrets.GMAIL_USERNAME }}
           GMAIL_PASSWORD: ${{ secrets.GMAIL_PASSWORD }}
-          DESTINATION_EMAIL: ${{ secrets.DESTINATION_EMAIL }}
-          PLATFORMS: ${{ secrets.PLATFORMS }}

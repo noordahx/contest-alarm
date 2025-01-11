@@ -5,71 +5,58 @@ import services._
 import courier._, Defaults._
 import scala.concurrent.Await
 import scala.concurrent.duration._
+import scala.io.Source
 
 object AppMain extends App {
-  // dev .env
-  /*
-  val envMap: Map[String, String] = DotEnvLoader.loadDotEnv(".env")
-  val username: String = envMap.getOrElse("CLIST_USERNAME", "")
-  val apiKey: String = envMap.getOrElse("CLIST_API_KEY", "")
-  val timezone: String = envMap.getOrElse("TIMEZONE", "Asia/Almaty")
-  val gmailUsername: String = envMap.getOrElse("GMAIL_USERNAME", "")
-  val gmailPassword: String = envMap.getOrElse("GMAIL_PASSWORD", "")
-  val destinationEmail: String = envMap.getOrElse("DESTINATION_EMAIL", "")
-  */ 
-
   // sys env
   val username: String = sys.env("CLIST_USERNAME")
   val apiKey: String = sys.env("CLIST_API_KEY")
   val timezone: String = sys.env.getOrElse("TIMEZONE", "Asia/Almaty")
   val gmailUsername: String = sys.env("GMAIL_USERNAME")
   val gmailPassword: String = sys.env("GMAIL_PASSWORD")
-  val destinationEmail: String = sys.env("DESTINATION_EMAIL")
-  
-  val platforms: List[String] = sys.env.getOrElse("PLATFORMS", "codefores.com,leetcode.com")
-    .split(",")
-    .map(_.trim)
-    .toList
 
+  val subscribers: List[(String, String, List[String])] = {
+    val lines = Source.fromFile("subscribers.csv").getLines().toList
+    lines.map { line =>
+      val cols = line.split(",")
+      (cols(0), cols(1), cols(2).split(",").map(_.trim).toList)
+    }
+  }
 
-  val contests = platforms.flatMap { platform =>
-    ClistApi.fetchUpcomingContests(
-      username,
-      apiKey,
-      resource = platform
-    )
-  }.filter { contest =>
-    contest.start.isDefined && contest.end.isDefined && contest.duration.isDefined
-  }.sortBy(_.start)
-
-  println(prettyString(contests))
-  sendEmail()
-
-  def sendEmail(): Unit = {
+  subscribers.foreach { case (name, email, platforms) =>
+    val contests: List[ClistContest] = platforms.flatMap { platform =>
+      ClistApi.fetchUpcomingContests(
+        username,
+        apiKey,
+        resource = platform
+      )
+    }.filter(_.start.isDefined).sortBy(_.start)
+      
     val emailContent = prettyString(contests)
+    sendEmail(email, s"$name, here are the upcoming contests", emailContent)
+  }
 
+
+  def sendEmail(to: String, subject: String, body: String): Unit = {
+    // val emailContent = prettyString(contests)
     val mailer = Mailer("smtp.gmail.com", 587)
       .auth(true)
       .as(gmailUsername, gmailPassword)
       .startTls(true)()
 
     val email = Envelope.from(gmailUsername.addr)
-      .to(destinationEmail.addr)
-      .subject("Daily contests alert")
-      .content(Text(emailContent))
+      .to(to.addr)
+      .subject(subject)
+      .content(Text(body))
 
     try {
       Await.result(mailer(email), 30.seconds)
-      println("Email sent!")
+      println("Email sent to $to")
     } catch {
-      case e: Exception => println(s"Failed to send email: $e")
+      case e: Exception => println(s"Failed to send email to $to: $e")
       e.printStackTrace()
     }
   }
-  
-  
-
-  
 
   def prettyString(contests: List[ClistContest]): String = {
     contests.map { contest =>

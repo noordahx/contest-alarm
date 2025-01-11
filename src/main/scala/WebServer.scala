@@ -45,7 +45,7 @@ object WebServer extends App {
       |</html>
     """.stripMargin
 
-    val router = 
+    val route = 
         path("") {
             get {
                 complete(HttpEntity(ContentTypes.`text/html(UTF-8)`, htmlContent))
@@ -65,6 +65,9 @@ object WebServer extends App {
                     }
                 }
             }
-    Http().bindAndHandle(router, "0.0.0.0", 8080)
-    println("Server online at http://localhost:8080/")
+    // Needed for Render to work on their specified port
+    val port = sys.env.getOrElse("PORT", "8080").toInt
+
+    Http().bindAndHandle(route, "0.0.0.0", port)
+    println(f"Server online at http://localhost:$port/")
 }

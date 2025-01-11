@@ -1,11 +1,9 @@
-name := "contest-alarm"
-
-version := "0.1.0-SNAPSHOT"
-
-scalaVersion := "2.13.12"
 
 lazy val root = (project in file("."))
 	.settings(
+		name := "contest-alarm",
+		version := "1.0",
+		scalaVersion := "2.13.12",
 		libraryDependencies ++= Seq(
 			// Web server
 			"com.typesafe.akka" %% "akka-http" % "10.2.10",
@@ -20,11 +18,26 @@ lazy val root = (project in file("."))
 			"io.circe" %% "circe-generic" % "0.14.6",
 			"io.circe" %% "circe-parser" % "0.14.6",
 			"org.scalatest" %% "scalatest" % "3.2.16" % Test,
-		)
-
+		),
+		assembly / test := {},
+		assembly / assemblyMergeStrategy := {
+			case PathList("reference.conf") => MergeStrategy.concat
+			case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+			case _ => MergeStrategy.first
+		},
+		assembly / packageOptions += Package.MainClass("web.WebServer")
 	)
 
-resolvers ++= Seq(
-  "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
-  "Sonatype OSS Releases"  at "https://oss.sonatype.org/content/repositories/releases"
-)
+// enablePlugins(JavaAppPackaging)
+
+// // Assembly settings
+// assembly / test := {} // Skip tests during assembly
+// assembly / assemblyMergeStrategy := {
+//   case PathList("META-INF", xs @ _*) => MergeStrategy.discard
+//   case x => MergeStrategy.first
+// }
+
+// resolvers ++= Seq(
+//   "Sonatype OSS Snapshots" at "https://oss.sonatype.org/content/repositories/snapshots",
+//   "Sonatype OSS Releases"  at "https://oss.sonatype.org/content/repositories/releases"
+// )

@@ -3,7 +3,7 @@ name: "Daily Contest Email"
 on:
   push:
     branches:
-      - 'feature/subscriber_list'
+      - 'main'
   schedule:
     - cron: "0 3,12 * * *"
   workflow_dispatch:
